@@ -3,7 +3,7 @@ import axios from "axios";
 import { getToken } from "./token";
 
 const http = axios.create({
-  baseURL:"http://geek.itheima.net/v1_0",
+  baseURL:"http://liuyu666.cn",
   timeout:5000 // 超时时间定下5秒钟
 })
 // 添加请求拦截器

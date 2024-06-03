@@ -30,11 +30,11 @@ const Article = () => {
   useEffect(()=>{
     // 获取文章列表数据
     const loadList = async () =>{ 
-      const res = await http.get('/mp/articles',{ params })
-      const { results,total_count } = res.data
+        const res = await http.get('/product/list',{ params })
+      const { list, total } = res.data
       setArticleData({
-        list:results,
-        count:total_count
+        list,
+        count: total
       })
     }
     loadList()
@@ -72,7 +72,7 @@ const Article = () => {
 
   // 删除文章
   const delArticle = async (data) => {
-    await http.delete(`/mp/articles/${data.id}`)
+    await http.delete(`/product/item/${data.id}`)
     // 刷新一下列表
     setParams({
       ...params,
@@ -87,37 +87,31 @@ const Article = () => {
 
   const columns = [
     {
-      title: '封面',
-      dataIndex: 'cover',
+      title: '商品封面',
+      dataIndex: 'images',
       width: 120,
-      render: cover => {
-        return <img src={cover.images[0] || img404} width={80} height={60} alt="" />
+      render: images => {
+        const img = images.split(';')
+        return <img src={img[0] || img404} width={80} height={60} alt="" />
       }
     },
     {
-      title: '标题',
+      title: '商品名称',
       dataIndex: 'title',
       width: 220
     },
     {
-      title: '状态',
-      dataIndex: 'status',
+        title: '发布时间',
+        dataIndex: 'create_time',
+    },
+    
+    {
+        title: '最后修改时间',
+        dataIndex: 'update_time',
     },
     {
-      title: '发布时间',
-      dataIndex: 'pubdate'
-    },
-    {
-      title: '阅读数',
-      dataIndex: 'read_count'
-    },
-    {
-      title: '评论数',
-      dataIndex: 'comment_count'
-    },
-    {
-      title: '点赞数',
-      dataIndex: 'like_count'
+        title: '价格',
+        dataIndex: 'price'
     },
     {
       title: '操作',
@@ -169,14 +163,14 @@ const Article = () => {
             </Radio.Group>
           </Form.Item>
 
-          <Form.Item label="频道" name="channel_id">
+          {/* <Form.Item label="频道" name="channel_id">
             <Select
               placeholder="请选择文章频道"
               style={{ width: 120 }}
             >
               {ChannelStore.channelList.map(channel => <Option key={channel.id} value={channel.id}>{channel.name}</Option>)}
             </Select>
-          </Form.Item>
+          </Form.Item> */}
 
           <Form.Item label="日期" name="date">
             {/* 传入locale属性 控制中文显示*/}
